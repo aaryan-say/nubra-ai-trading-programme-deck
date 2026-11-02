@@ -1,0 +1,676 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nubra AI Trading Programme</title>
+<style>
+  :root { --ink:#1f2937; --muted:#6b7280; --line:#d1d5db; --bg:#ffffff; --soft:#f3f4f6;
+          --blue:#dce9f7; --blue2:#2f5d9a; --yel:#fff2cc; --green:#d9ead3; --green2:#2e7d32; --red:#f8d7da; --grey:#ededed; }
+  * { box-sizing:border-box; }
+  html,body { margin:0; height:100%; background:#e5e7eb; font-family:Arial, Helvetica, sans-serif; color:var(--ink); }
+  #stage { position:fixed; inset:0; display:flex; align-items:center; justify-content:center; }
+  .slide { width:1280px; height:720px; background:var(--bg); padding:56px 72px 48px; position:absolute; display:none; flex-direction:column; box-shadow:0 2px 12px rgba(0,0,0,.15); }
+  .slide.active { display:flex; }
+  h1 { font-size:34px; margin:0 0 6px; }
+  h2 { font-size:30px; margin:0 0 4px; }
+  .kicker { font-size:14px; color:var(--muted); letter-spacing:.08em; text-transform:uppercase; margin-bottom:14px; }
+  .lead { font-size:20px; color:var(--ink); margin:0 0 18px; max-width:1080px; }
+  p, li { font-size:17px; line-height:1.4; }
+  ul { margin:6px 0 0 22px; padding:0; }
+  li { margin-bottom:6px; }
+  table { border-collapse:collapse; width:100%; font-size:15px; }
+  th, td { border:1px solid var(--line); padding:7px 10px; vertical-align:top; text-align:left; }
+  th { background:#e5e7eb; font-weight:bold; }
+  td:first-child { font-weight:bold; white-space:nowrap; }
+  .cols { display:flex; gap:28px; flex:1; }
+  .col { flex:1; min-width:0; }
+  .box { border:1px solid var(--line); border-radius:6px; padding:12px 14px; background:var(--soft); margin-bottom:10px; }
+  .box h3 { margin:0 0 6px; font-size:17px; }
+  .box p, .box li { font-size:15px; margin:0; }
+  .phase { display:flex; gap:12px; flex:1; }
+  .ph { flex:1; border:1px solid var(--line); border-radius:6px; padding:12px 14px; display:flex; flex-direction:column; }
+  .ph h3 { margin:0 0 8px; font-size:17px; }
+  .ph ul { margin-left:18px; } .ph li { font-size:14.5px; margin-bottom:5px; }
+  .ph.done { background:var(--green); border-color:#9fbf98; }
+  .ph.here { background:var(--yel); border-color:#d9c36b; }
+  .ph.next { background:#fff; }
+  .tag { display:inline-block; font-size:12px; font-weight:bold; letter-spacing:.06em; text-transform:uppercase; padding:2px 8px; border-radius:10px; margin-bottom:8px; }
+  .tag.done { background:var(--green2); color:#fff; } .tag.here { background:#b45309; color:#fff; } .tag.next { background:#9ca3af; color:#fff; }
+  .needs { margin-top:auto; border-top:1px dashed var(--line); padding-top:8px; font-size:14px; color:var(--muted); }
+  .foot { position:absolute; left:72px; right:72px; bottom:18px; display:flex; justify-content:space-between; font-size:12px; color:var(--muted); }
+  .title { justify-content:center; }
+  .title h1 { font-size:54px; margin-bottom:14px; }
+  .title .lead { font-size:24px; color:var(--muted); }
+  .title .meta { font-size:16px; color:var(--muted); margin-top:40px; }
+  svg text { font-family:Arial, Helvetica, sans-serif; }
+  table.tight th, table.tight td { padding:4px 8px; }
+  .note { font-size:14px; color:var(--muted); margin-top:10px; }
+  #help { position:fixed; right:14px; bottom:10px; font-size:12px; color:#4b5563; }
+  @media print {
+    html,body { background:#fff; }
+    #stage { position:static; display:block; }
+    .slide { display:flex !important; position:relative; box-shadow:none; page-break-after:always; transform:none !important; margin:0 auto; }
+    #help { display:none; }
+    @page { size:1280px 720px; margin:0; }
+  }
+</style>
+</head>
+<body>
+<div id="stage">
+
+<!-- 1 -->
+<section class="slide title">
+  <div class="kicker">Nubra · AI Product Programme</div>
+  <h1>Nubra AI Trading Programme</h1>
+  <p class="lead">An end-to-end system that takes a trader from an idea to a strategy running on Nubra Cloud, without writing code.</p>
+  <p class="lead">Four modules on one shared engine: Chart Analytics AI, Strategy Coder, One-click Deployment and Strategy Recorder, built on a Backtest Engine.</p>
+  <div class="meta">Target state, requirements and phased delivery plan · Engineering review · November 2026</div>
+</section>
+
+<!-- 2 -->
+<section class="slide">
+  <div class="kicker">Target state</div>
+  <h2>Target architecture: multiple entry points, one Strategy Creator, one deployment path</h2>
+  <p class="lead">Each entry point yields a strategy specification. The Strategy Creator converts it into Nubra Python SDK code. The same code is backtested, then deployed with one click.</p>
+  <svg viewBox="0 0 1140 380" width="1140" height="380" role="img" aria-label="End-to-end flow from entry points to Nubra Cloud">
+    <defs><marker id="a" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#44546A"/></marker></defs>
+    <text x="90" y="22" font-size="14" fill="#6b7280" text-anchor="middle">ENTRY POINTS</text>
+    <g font-size="15" fill="#1f2937">
+      <rect x="10" y="40" width="160" height="50" rx="6" fill="#ededed" stroke="#44546A"/><text x="90" y="70" text-anchor="middle">Strategy text</text>
+      <rect x="10" y="110" width="160" height="50" rx="6" fill="#ededed" stroke="#44546A"/><text x="90" y="133" text-anchor="middle">Screen recording</text><text x="90" y="151" text-anchor="middle" font-size="12" fill="#6b7280">Strategy Recorder</text>
+      <rect x="10" y="180" width="160" height="50" rx="6" fill="#ededed" stroke="#44546A"/><text x="90" y="210" text-anchor="middle">Pine Script</text>
+      <rect x="10" y="250" width="160" height="50" rx="6" fill="#ededed" stroke="#44546A"/><text x="90" y="273" text-anchor="middle">A setup on the chart</text><text x="90" y="291" text-anchor="middle" font-size="12" fill="#6b7280">Chart Analytics AI</text>
+    </g>
+    <g stroke="#44546A" stroke-width="1.5" fill="none">
+      <path d="M170,65 L250,65 L250,275 L170,275"/><path d="M170,135 L250,135"/><path d="M170,205 L250,205"/>
+    </g>
+    <path d="M250,170 L300,170" stroke="#44546A" stroke-width="1.5" fill="none" marker-end="url(#a)"/>
+    <rect x="300" y="110" width="230" height="120" rx="8" fill="#dce9f7" stroke="#2f5d9a" stroke-width="2"/>
+    <text x="415" y="145" text-anchor="middle" font-size="18" font-weight="bold">Strategy Creator</text>
+    <text x="415" y="170" text-anchor="middle" font-size="14">the Strategy Coder</text>
+    <text x="415" y="192" text-anchor="middle" font-size="13" fill="#374151">text → plan → main.py, .env,</text>
+    <text x="415" y="210" text-anchor="middle" font-size="13" fill="#374151">requirements.txt + description</text>
+    <path d="M530,170 L590,170" stroke="#44546A" stroke-width="1.5" marker-end="url(#a)"/>
+    <text x="560" y="160" text-anchor="middle" font-size="12" fill="#14532D" font-weight="bold">code</text>
+    <rect x="590" y="110" width="220" height="120" rx="8" fill="#fff2cc" stroke="#44546A"/>
+    <text x="700" y="145" text-anchor="middle" font-size="18" font-weight="bold">Backtest Engine</text>
+    <text x="700" y="170" text-anchor="middle" font-size="13" fill="#374151">runs the same code on history</text>
+    <text x="700" y="192" text-anchor="middle" font-size="13" fill="#374151">orders, P&amp;L, trade list</text>
+    <text x="700" y="210" text-anchor="middle" font-size="13" fill="#374151">today: 7-trading-day replay</text>
+    <path d="M810,170 L870,170" stroke="#44546A" stroke-width="1.5" marker-end="url(#a)"/>
+    <text x="840" y="160" text-anchor="middle" font-size="12" fill="#14532D" font-weight="bold">results</text>
+    <rect x="870" y="110" width="250" height="120" rx="8" fill="#d9ead3" stroke="#2e7d32" stroke-width="2"/>
+    <text x="995" y="145" text-anchor="middle" font-size="18" font-weight="bold">One-click Deployment</text>
+    <text x="995" y="170" text-anchor="middle" font-size="13" fill="#374151">Deploy button: save + start on</text>
+    <text x="995" y="192" text-anchor="middle" font-size="13" fill="#374151">Nubra Cloud · Edit code · .env form</text>
+    <text x="995" y="210" text-anchor="middle" font-size="13" fill="#374151">Nubra Python Cloud SDK 0.5.4</text>
+    <path d="M995,230 L995,300 L415,300 L415,232" stroke="#44546A" stroke-width="1.2" fill="none" stroke-dasharray="5,4" marker-end="url(#a)"/>
+    <text x="705" y="292" text-anchor="middle" font-size="12" fill="#6b7280">feedback: "I meant this" → ENV / LOGIC / REDO → confirm → overwrite</text>
+    <rect x="300" y="330" width="820" height="40" rx="6" fill="#f3f4f6" stroke="#9ca3af" stroke-dasharray="4,3"/>
+    <text x="710" y="355" text-anchor="middle" font-size="14" fill="#374151">Where the trader lives: the Nubra chart with Chart Analytics AI. Questions beyond the chart are bridged to AI mode and answered in the same interface</text>
+  </svg>
+  <div class="foot"><span>Nubra AI Trading Programme</span><span class="n"></span></div>
+</section>
+
+<!-- 3 -->
+<section class="slide">
+  <div class="kicker">Problem statement</div>
+  <h2>The algorithmic trader's workflow: current state and target state</h2>
+  <table>
+    <tr><th style="width:190px">Step of the trader's day</th><th>Today</th><th>Ideal world</th><th style="width:210px">Module</th></tr>
+    <tr><td>Read the market</td><td>Draws levels and indicators by hand, holds a view, checks the option chain in another screen.</td><td>Asks the chart. Levels, view, option chain and multi-timeframe setups are read for them and shown as nudges.</td><td>Chart Analytics AI</td></tr>
+    <tr><td>Form a rule</td><td>Keeps the rule in their head, in a note, or in a Pine Script.</td><td>States it in words, records it, pastes Pine, or points at a setup on the chart.</td><td>Entry points, Strategy Recorder</td></tr>
+    <tr><td>Turn the rule into code</td><td>Learns Python and the SDK, or pays someone. Weeks.</td><td>The Strategy Coder writes Nubra Python SDK code in minutes, asks only when it must, shows what it assumed.</td><td>Strategy Coder</td></tr>
+    <tr><td>Check it</td><td>Reads the code, or trusts it.</td><td>Reads a description derived from the code, and sees the orders the rule would have placed on real history.</td><td>Backtest Engine</td></tr>
+    <tr><td>Run it</td><td>Sets up a machine, credentials, restarts.</td><td>One click: saved and started on Nubra Cloud. Changes are made in .env or by saying what was meant.</td><td>One-click Deployment</td></tr>
+    <tr><td>Review the day</td><td>Scrolls through trades.</td><td>Asks the chart; the question is bridged to AI mode, which says what was right and wrong in today's positions.</td><td>Chart Analytics AI, via AI mode</td></tr>
+  </table>
+  <p class="note">Programme objective: reduce the time from idea to a running strategy from weeks to minutes, and deliver strategies that execute what the trader specified.</p>
+  <div class="foot"><span>Nubra AI Trading Programme</span><span class="n"></span></div>
+</section>
+
+<!-- research -->
+<section class="slide">
+  <div class="kicker">User research</div>
+  <h2>Requirement gathering: four trader interviews</h2>
+  <table>
+    <tr><th style="width:170px">Trader</th><th style="width:300px">Current workflow</th><th style="width:270px">Pain points</th><th>What they asked an AI to do</th></tr>
+    <tr><td>N.K.<br><span style="font-weight:normal;color:#6b7280">Part-time, 3 years, business owner</span></td><td>Marks levels on several time frames, keeps the ones that merge, trades liquidity at those levels. Draws trend lines on 5m, 15m and 1H.</td><td>Morning preparation is manual: Fibonacci on swing high and low every day. Partial booking takes many steps. OI on charts hard to read.</td><td>Learn my setup and check every morning that the lines are drawn as per it; tell me what is wrong, with entry and exit. Automate the drawings.</td></tr>
+    <tr><td>V.K.G.<br><span style="font-weight:normal;color:#6b7280">Full-time, options seller</span></td><td>BB, EMA, pivot points, RSI, SuperTrend, TEMA; OI profile for S&amp;R; iron condors on those levels.</td><td>Momentum trap: gets caught in a trending market. OI data misleads at times.</td><td>Tell me the actual market view from the data, against my own view. Analyse the option chain on the chart. Alert me when my open position has flaws as per the data.</td></tr>
+    <tr><td>R.N.<br><span style="font-weight:normal;color:#6b7280">Full-time, 6 years, retired</span></td><td>S&amp;R from previous day, then option chain, then S&amp;R from OI on the 1H chart.</td><td>Trapped when the market enters a narrow range; needs momentum and price-action tools.</td><td>Draw S&amp;R from several parameters. Find the day's momentum stocks by volume. Review my positions at end of day: what was right, what was wrong.</td></tr>
+    <tr><td>K.S.<br><span style="font-weight:normal;color:#6b7280">20 years, 7 to 8 full-time, now on and off</span></td><td>Watches many charts and time frames at once.</td><td>Layouts allow 4 to 8 charts; wants more than 10. Multiple time frames in one layout.</td><td>Add indicators and analyse their output. Show the signals across time frames and indicators. Divergence analysis. Flag upcoming events from the news.</td></tr>
+  </table>
+  <p class="note">Source: User Requirement Gathering 1 to 4 (presentation/interviews/source_1.md to source_4.md). Feature notes derived from them: Nubra Charts AI (source_5.md) and Nubra Charts (source_6.md).</p>
+  <div class="foot"><span>Nubra AI Trading Programme</span><span class="n"></span></div>
+</section>
+
+<!-- mapping -->
+<section class="slide">
+  <div class="kicker">User research</div>
+  <h2>From requests to modules: every ask has a home</h2>
+  <table style="font-size:14px">
+    <tr><th style="width:360px">Request (who)</th><th style="width:210px">Module · phase</th><th>How the programme answers it</th></tr>
+    <tr><td>Morning check of my setup; learn my setup (N.K.)</td><td>Chart AI · phase 3</td><td>Stored user setup; morning check with deviations, entry and exit.</td></tr>
+    <tr><td>Automate my drawings: Fibonacci, trend lines (N.K.)</td><td>Chart AI · phase 3</td><td>Drawings with trader skill; setup automation through Pine custom indicators.</td></tr>
+    <tr><td>S&amp;R from several parameters (R.N.); actual market view (V.K.G.)</td><td>Chart AI · phase 2</td><td>S&amp;R from previous day, OI and option chain; AI view as a sceptic.</td></tr>
+    <tr><td>Option chain analysed on the chart (V.K.G.)</td><td>Chart AI · phase 2</td><td>Option-chain analysis to identify momentum on the chart.</td></tr>
+    <tr><td>Signals across time frames; indicator output; divergence (K.S.)</td><td>Chart AI · phase 2</td><td>Multi-timeframe setups and signals; indicators and divergence analysis.</td></tr>
+    <tr><td>Alert me when my position has flaws (V.K.G.)</td><td>Chart AI · phase 4</td><td>Positions-based AI view and alerts with OI and option-chain data.</td></tr>
+    <tr><td>End-of-day positions review; momentum stocks by volume (R.N.)</td><td>Chart AI · phase 4 → AI mode</td><td>Bridged to AI mode and answered in the chart interface.</td></tr>
+    <tr><td>Describe my setup and get Pine code (N.K., product note)</td><td>Strategy Coder · phase 3</td><td>Same plan-and-code pipeline; Pine as an output and an entry point.</td></tr>
+    <tr><td>Record my charting process and keep it (N.K., product note)</td><td>Strategy Recorder</td><td>Event capture and events-to-text; the Recorder's origin.</td></tr>
+    <tr><td>Upcoming event flags from news (K.S.)</td><td>Not in scope</td><td>Nubra holds no event calendar; recorded as a later candidate.</td></tr>
+  </table>
+  <div class="box" style="margin-top:10px"><h3>Chart platform requests, not AI: tracked in the Nubra Charts feature notes, outside this programme</h3><p>Regime and momentum-meter indicators, SMC and FVG indicators, underlying-based SL and TP, OI and OI change on charts with time-frame control, partial booking from the chart, Pine editor with saved scripts, more than 8 charts and several time frames in one layout.</p></div>
+  <div class="foot"><span>Nubra AI Trading Programme</span><span class="n"></span></div>
+</section>
+
+<!-- 4 -->
+<section class="slide">
+  <div class="kicker">Scope</div>
+  <h2>Programme scope: four modules and one shared engine</h2>
+  <table>
+    <tr><th style="width:190px">Module</th><th>Purpose</th><th style="width:200px">Input</th><th style="width:220px">Output</th><th style="width:230px">State today</th></tr>
+    <tr><td>Chart Analytics AI</td><td>An assistant on the Nubra chart that reads, draws and checks the chart the way a trader would.</td><td>The live chart, indicators, OI and option chain, the user's own setup</td><td>Analysis, levels, drawings, alerts, nudges; a setup that can become a strategy</td><td><b>In canary.</b> Phase 1 live: quick analysis, add indicators.</td></tr>
+    <tr><td>Strategy Coder</td><td>Turns a strategy description into Nubra Python SDK code that does what the text says.</td><td>Strategy text (from any entry point)</td><td>main.py, .env, requirements.txt; description from code; 7-day chart</td><td><b>Pipeline built and tested in the lab.</b> PRD v0.3 written; productisation next.</td></tr>
+    <tr><td>One-click Deployment</td><td>Saves and starts the generated strategy on Nubra Cloud with one click; edits without a rebuild.</td><td>The three files</td><td>A running strategy on Nubra Cloud</td><td><b>Cloud exists.</b> Buttons, auto-save and the .env form to build.</td></tr>
+    <tr><td>Strategy Recorder</td><td>Watches the trader trade on the screen and turns what they did into strategy text.</td><td>Screen events: orders, drawings, indicator changes, timing</td><td>Strategy text for the Coder</td><td><b>Idea.</b> Not designed yet.</td></tr>
+    <tr><td>Backtest Engine</td><td>Runs the generated code on history and shows orders, P&amp;L and a trade list before deployment.</td><td>The three files + market history</td><td>Marks on the chart, trade list, results screen</td><td><b>Seed exists.</b> 7-trading-day replay on real candles, as a lab tool.</td></tr>
+  </table>
+  <p class="note">Order of readiness: Chart Analytics AI → Strategy Coder → One-click Deployment → Strategy Recorder → Backtest Engine. The plan follows this order.</p>
+  <div class="foot"><span>Nubra AI Trading Programme</span><span class="n"></span></div>
+</section>
+
+<!-- 5 -->
+<section class="slide">
+  <div class="kicker">Foundations</div>
+  <h2>Foundations required for the target state</h2>
+  <div class="cols">
+    <div class="col">
+      <div class="box"><h3>One strategy representation</h3><p>Every entry point ends in the same thing: a plan (data, numbers, rules with the sentence each came from, assumptions, questions). The Coder, the backtest and the deploy all read it. Nothing is special-cased per entry point.</p></div>
+      <div class="box"><h3>One target: the Nubra Python Cloud SDK</h3><p>Generated code is always main.py + .env + requirements.txt on SDK 0.5.4, PROD, API-key login. The same files run in the backtest and on the Cloud.</p></div>
+      <div class="box"><h3>Market history, served to us</h3><p>Candles, L1 bid/ask, OI, option chains and greeks, by instrument and date, without a user's credentials. Needed by the backtest, by Chart AI's levels and option-chain analysis, and by the morning check.</p></div>
+    </div>
+    <div class="col">
+      <div class="box"><h3>Cloud contracts</h3><p>Auto-save of a created strategy, start on click, .env installed into the VM, a defined behaviour when a running strategy is overwritten.</p></div>
+      <div class="box"><h3>Model outputs verified by code and review</h3><p>Plan writer, code writer, description writer, decision step, Chart AI analysis. Each is followed by plain-code checks, and every delivery is reviewed by a stronger model after the fact. Fixes solve a class of error, not one case.</p></div>
+      <div class="box"><h3>User context and storage</h3><p>Texts, answers, plans, files, chart results and the user's chart setup, kept until the user deletes them. Chart AI's morning check and the Recorder both depend on remembered context.</p></div>
+    </div>
+  </div>
+  <div class="foot"><span>Nubra AI Trading Programme</span><span class="n"></span></div>
+</section>
+
+<!-- 6 -->
+<section class="slide">
+  <div class="kicker">Module 1 · Chart Analytics AI</div>
+  <h2>Target capability: chart analysis with a trader's judgement</h2>
+  <div class="cols">
+    <div class="col">
+      <div class="box"><h3>Reads the chart</h3><ul>
+        <li>Quick analysis with entry, exit and S&amp;R levels</li>
+        <li>S&amp;R drawn by AI from previous-day data, OI and the option chain</li>
+        <li>An AI view of the market from many parameters, as a sceptic against the user's own view</li>
+        <li>Option-chain analysis on the chart itself, to spot momentum</li>
+        <li>Setups and signals across time frames, from many indicators</li>
+        <li>Indicators (117 standard TradingView ones) and divergence analysis</li></ul></div>
+      <div class="box"><h3>Acts on the chart</h3><ul>
+        <li>Drawings with a trader's skill: Fibonacci, trend lines, and what a trader does with each</li>
+        <li>Charting-setup automation: the user's routine actions turned into a Pine-based custom indicator</li></ul></div>
+    </div>
+    <div class="col">
+      <div class="box"><h3>Knows the user's setup</h3><ul>
+        <li>Morning check: are the lines drawn as per the user's setup, what is off, where entry and exit are</li>
+        <li>Current positions: an AI view with OI and option-chain data, and an alert when a position has flaws</li></ul></div>
+      <div class="box"><h3>Surface and hand-off</h3><ul>
+        <li>All abilities shown as nudges on the same interface</li>
+        <li>A setup the AI has read can be handed to the Strategy Coder as text: "make this a strategy"</li></ul></div>
+      <div class="box"><h3>Bridge to AI mode for non-chart requests</h3><ul>
+        <li>A question that is not about the chart (end-of-day positions review, stock screening by volume, account-level questions) is not refused</li>
+        <li>Chart AI passes the prompt to AI mode and shows AI mode's answer in the same interface</li></ul></div>
+    </div>
+  </div>
+  <div class="foot"><span>Nubra AI Trading Programme</span><span class="n"></span></div>
+</section>
+
+<!-- 7 -->
+<section class="slide">
+  <div class="kicker">Module 1 · Chart Analytics AI</div>
+  <h2>Phases</h2>
+  <div class="phase">
+    <div class="ph here"><span class="tag here">Phase 1 · in canary</span><h3>Baseline analysis</h3><ul>
+      <li>Quick analysis with the AI's view, entry, exit, S&amp;R</li>
+      <li>Add any of 117 standard TradingView indicators</li></ul>
+      <div class="needs">Needs: the live chart, indicator library. Already available.</div></div>
+    <div class="ph next"><span class="tag next">Phase 2</span><h3>Data-enriched analysis</h3><ul>
+      <li>S&amp;R by AI from previous day, OI, option chain</li>
+      <li>Option-chain analysis on the chart</li>
+      <li>Market view across parameters</li>
+      <li>Multi-timeframe setups and signals</li>
+      <li>Indicator output and divergence analysis</li></ul>
+      <div class="needs">Needs: OI and option-chain feed to the AI, previous-day data, an evaluation set of charts with known answers.</div></div>
+    <div class="ph next"><span class="tag next">Phase 3</span><h3>Drawing automation and setup memory</h3><ul>
+      <li>Drawings with trader skill (Fibonacci, trend lines)</li>
+      <li>Charting-setup automation through Pine custom indicators</li>
+      <li>Morning check of the user's setup</li></ul>
+      <div class="needs">Needs: drawing data from Metabase, a stored "user setup", a Pine generator (shared with the Coder's Pine entry point).</div></div>
+    <div class="ph next"><span class="tag next">Phase 4</span><h3>Position monitoring and hand-off</h3><ul>
+      <li>Positions-based AI view and flaw alerts</li>
+      <li>Nudge design for every ability</li>
+      <li>Hand a setup to the Strategy Coder as strategy text</li>
+      <li>Bridge to AI mode: non-chart questions are routed to AI mode and answered in place</li></ul>
+      <div class="needs">Needs: positions feed, alert channel, the Coder's text entry point, an AI mode interface that accepts a prompt and returns an answer.</div></div>
+  </div>
+  <div class="foot"><span>Nubra AI Trading Programme</span><span class="n"></span></div>
+</section>
+
+<!-- 8 -->
+<section class="slide">
+  <div class="kicker">Module 2 · Strategy Coder</div>
+  <h2>Target capability: strategy text to verified Nubra SDK code</h2>
+  <div class="cols">
+    <div class="col">
+      <div class="box"><h3>What the user gets, together</h3><ul>
+        <li><b>main.py</b>: 12 modules; only data, calculations and conditions are written per strategy, the rest is a fixed tested template</li>
+        <li><b>.env</b>: every changeable value (instruments, size, times, periods, limits), each with the sentence it came from; assumptions marked ASSUMED</li>
+        <li><b>requirements.txt</b>: nubra-sdk 0.5.4, pandas, numpy</li>
+        <li>A <b>description</b> derived from the code, assumptions highlighted</li>
+        <li>A <b>chart</b> of the orders the rules would have placed in the last 7 trading days, each with the sentence that fired</li></ul></div>
+      <div class="box"><h3>Clarification policy</h3><p>Safe gaps are assumed (size, interval, standard indicator periods) and editable in .env. Unsafe gaps (instrument, direction, exit, contradictions) are asked: one question per round, all remaining in round 3, then one build. The number of rounds is bounded.</p></div>
+    </div>
+    <div class="col">
+      <div class="box"><h3>How it works</h3><ul>
+        <li>Plan writer (model) → plan checks (plain code, about 110 rules) → up to 3 attempts</li>
+        <li>Data writer (plain code) writes module 1, .env, requirements.txt</li>
+        <li>Code writer (model) writes calculations and conditions → static checks → up to 2 fixes</li>
+        <li>Description writer and replay run in parallel; all delivered at once</li>
+        <li>Feedback: a decision step picks ENV (edit .env), LOGIC (regenerate changed rules only) or REDO</li></ul></div>
+      <div class="box"><h3>What it needs</h3><ul>
+        <li>Instrument service (names, expiries, contract picker, BSE, MCX)</li>
+        <li>Market history for the replay, without user credentials</li>
+        <li>Storage of every request; a learning loop that reviews 100% of deliveries weekly</li>
+        <li>Targets: 95% pass on the 600-text suite, 10 minutes to delivery, 2% or fewer not built</li></ul></div>
+    </div>
+  </div>
+  <div class="foot"><span>Nubra AI Trading Programme</span><span class="n"></span></div>
+</section>
+
+<!-- 9 -->
+<section class="slide">
+  <div class="kicker">Module 2 · Strategy Coder</div>
+  <h2>Phases</h2>
+  <div class="phase">
+    <div class="ph done"><span class="tag done">Phase 1 · done</span><h3>Validated pipeline</h3><ul>
+      <li>Fixed strategy template on the plain SDK</li>
+      <li>Plan → check → code pipeline</li>
+      <li>600-text suite across six strategy families</li>
+      <li>Opus review of every output; rounds of class-level fixes</li>
+      <li>Replay tool on real candles</li>
+      <li>PRD v0.3, Handover and Current Status documents</li></ul>
+      <div class="needs">Result: the pipeline and its test harness exist; the behaviour is specified.</div></div>
+    <div class="ph here"><span class="tag here">Phase 2 · we are here</span><h3>Productisation</h3><ul>
+      <li>Three-file delivery, .env with sources and ASSUMED marks</li>
+      <li>Question rounds and the safe-to-assume list</li>
+      <li>Description written from code</li>
+      <li>Chart delivered with every strategy</li>
+      <li>Failure handling: retries, alerts, 'not built' messages</li>
+      <li>Instrument service: contract picker, BSE, one-order roll</li>
+      <li>Handover to backend and frontend</li></ul>
+      <div class="needs">Needs: backend, frontend and Cloud owners named; history supply decided.</div></div>
+    <div class="ph next"><span class="tag next">Phase 3</span><h3>Additional entry points</h3><ul>
+      <li>Recording text as an entry point (from the Recorder)</li>
+      <li>Pine Script as an entry point</li>
+      <li>Chart AI setups as an entry point</li>
+      <li>Feedback flow: ENV / LOGIC / REDO with confirmation</li></ul>
+      <div class="needs">Needs: Pine workflow defined; a test set per entry point.</div></div>
+    <div class="ph next"><span class="tag next">Phase 4</span><h3>Operation at scale</h3><ul>
+      <li>Learning loop in weekly operation</li>
+      <li>Cost cap and per-user limits from real traffic</li>
+      <li>Backtest results replace the 7-day chart</li></ul>
+      <div class="needs">Needs: one month of real usage data.</div></div>
+  </div>
+  <div class="foot"><span>Nubra AI Trading Programme</span><span class="n"></span></div>
+</section>
+
+<!-- 10 -->
+<section class="slide">
+  <div class="kicker">Module 3 · One-click Deployment</div>
+  <h2>Target capability: deployment to Nubra Cloud in one action</h2>
+  <div class="cols">
+    <div class="col">
+      <div class="box"><h3>What the user sees</h3><ul>
+        <li>A <b>Deploy</b> button next to the code, description and chart: saves the strategy on Nubra Cloud and starts it under the Cloud's schedule</li>
+        <li>An <b>Edit code</b> button: opens the saved strategy on the Cloud script screen</li>
+        <li>An <b>.env form</b> in the product: change instrument, size, times; the chart reruns before deploying</li>
+        <li>Feedback in words: a summary of the change, confirm, then the saved strategy is overwritten</li></ul></div>
+      <div class="box"><h3>Responsibilities retained by Nubra Cloud</h3><p>Running, monitoring, stopping, the run calendar and holidays. The product never reads a user's API key, phone, OTP or MPIN; login is always PROD with API-key login inside the generated code.</p></div>
+    </div>
+    <div class="col">
+      <div class="box"><h3>What it needs from the Cloud team</h3><ul>
+        <li>Auto-save of every created strategy (an API, not a click)</li>
+        <li>Start a saved strategy on click</li>
+        <li>.env installed into the strategy's VM (confirmed)</li>
+        <li>Defined behaviour when a running strategy is overwritten</li>
+        <li>SDK 0.5.4 on the Cloud (confirmed)</li></ul></div>
+      <div class="box"><h3>What it needs from us</h3><ul>
+        <li>Exactly three files, a strategy tag per order, rate limits respected in the template</li>
+        <li>The .env form and change summary in the frontend</li>
+        <li>A version stamp on every delivery, so a description always says which version it describes</li></ul></div>
+    </div>
+  </div>
+  <div class="foot"><span>Nubra AI Trading Programme</span><span class="n"></span></div>
+</section>
+
+<!-- 11 -->
+<section class="slide">
+  <div class="kicker">Module 3 · One-click Deployment</div>
+  <h2>Phases</h2>
+  <div class="phase">
+    <div class="ph done"><span class="tag done">Phase 1 · exists</span><h3>Cloud execution available</h3><ul>
+      <li>Nubra Cloud runs Python strategies on SDK 0.5.4</li>
+      <li>.env is installed into the VM</li>
+      <li>The generated template already follows the Cloud rules: three files, PROD login, rate limits</li></ul>
+      <div class="needs">Result: generated code can be run today by manual upload.</div></div>
+    <div class="ph here"><span class="tag here">Phase 2 · next</span><h3>One-click deployment</h3><ul>
+      <li>Deploy and Edit code buttons</li>
+      <li>Auto-save of created strategies</li>
+      <li>.env form with chart rerun</li>
+      <li>'Chart unavailable' and warning states handled</li></ul>
+      <div class="needs">Needs: Cloud save and start APIs; frontend owner.</div></div>
+    <div class="ph next"><span class="tag next">Phase 3</span><h3>Controlled change</h3><ul>
+      <li>Feedback → ENV / LOGIC / REDO → summary → confirm → overwrite</li>
+      <li>Defined behaviour for a strategy that is running while overwritten</li>
+      <li>Versioned deliveries; description names its version</li></ul>
+      <div class="needs">Needs: Cloud decision on overwrite behaviour.</div></div>
+    <div class="ph next"><span class="tag next">Phase 4</span><h3>Deployment from backtest results</h3><ul>
+      <li>Deploy button on the backtest results screen</li>
+      <li>Compare two versions of a strategy before choosing one</li></ul>
+      <div class="needs">Needs: Backtest Engine phase 3.</div></div>
+  </div>
+  <div class="foot"><span>Nubra AI Trading Programme</span><span class="n"></span></div>
+</section>
+
+<!-- 12 -->
+<section class="slide">
+  <div class="kicker">Module 4 · Strategy Recorder</div>
+  <h2>Target capability: strategy text derived from recorded trading</h2>
+  <div class="cols">
+    <div class="col">
+      <div class="box"><h3>User flow</h3><p>The user enables recording and trades on the Nubra interface as usual: draws levels, adds indicators, places and exits orders. The user then stops the recording.</p></div>
+      <div class="box"><h3>Recorder function</h3><ul>
+        <li>Captures the events, not pixels: orders with time and price, drawings, indicator changes, the chart state when each order was placed</li>
+        <li>Turns the events into strategy text in the user's own terms: "bought when price closed above the trend line with RSI below 40"</li>
+        <li>Shows the text; the user corrects it; the text goes to the Strategy Coder like any typed text</li></ul></div>
+      <div class="box"><h3>Scope: an entry point to the Strategy Coder</h3><p>From the text onward the flow is identical: same plan, same questions, same code, same chart, same deploy. The Recorder's only job is to produce good text.</p></div>
+    </div>
+    <div class="col">
+      <div class="box"><h3>What it needs</h3><ul>
+        <li>An event schema: which UI events, with what fields, and consent to record</li>
+        <li>Event capture in the trading UI (frontend)</li>
+        <li>An events-to-text model step with its own checks</li>
+        <li>A test set of recorded sessions with the strategy the trader meant (T-REC30)</li>
+        <li>The Coder's text entry point, as is</li></ul></div>
+      <div class="box"><h3>Open questions</h3><ul>
+        <li>Discretionary trades: what to do when the events show no consistent rule</li>
+        <li>How many sessions make one strategy</li>
+        <li>Whether Chart AI's drawing data is the same event stream</li></ul></div>
+    </div>
+  </div>
+  <div class="foot"><span>Nubra AI Trading Programme</span><span class="n"></span></div>
+</section>
+
+<!-- 13 -->
+<section class="slide">
+  <div class="kicker">Module 4 · Strategy Recorder</div>
+  <h2>Phases</h2>
+  <div class="phase">
+    <div class="ph here"><span class="tag here">Phase 0 · we are here</span><h3>Concept</h3><ul>
+      <li>Entry point 2 is defined in the Coder's PRD: text produced from a recording goes through the same input as typed text</li>
+      <li>Nothing captured, nothing converted yet</li></ul>
+      <div class="needs">Needs: a decision to start, and a frontend owner.</div></div>
+    <div class="ph next"><span class="tag next">Phase 1</span><h3>Event schema and capture</h3><ul>
+      <li>Event schema and consent</li>
+      <li>Capture in the trading UI, stored per session</li>
+      <li>10 recorded sessions from real traders, each with the strategy they say they followed</li></ul>
+      <div class="needs">Needs: frontend work; volunteers to record.</div></div>
+    <div class="ph next"><span class="tag next">Phase 2</span><h3>Event-to-text conversion</h3><ul>
+      <li>Model step: events → strategy text, with checks (every rule points at events)</li>
+      <li>Run the text through the Coder; compare the code with what the trader meant</li>
+      <li>T-REC30 test set and a pass rate reported separately</li></ul>
+      <div class="needs">Needs: the Coder in production (phase 2).</div></div>
+    <div class="ph next"><span class="tag next">Phase 3</span><h3>Production entry point</h3><ul>
+      <li>"Review the text before we build" screen</li>
+      <li>Recording from the Nubra chart with Chart AI's drawings as part of the events</li></ul>
+      <div class="needs">Needs: Chart AI phase 3 drawing data.</div></div>
+  </div>
+  <div class="foot"><span>Nubra AI Trading Programme</span><span class="n"></span></div>
+</section>
+
+<!-- 14 -->
+<section class="slide">
+  <div class="kicker">Shared engine · Backtest</div>
+  <h2>Target capability: historical execution of the delivered code before deployment</h2>
+  <div class="cols">
+    <div class="col">
+      <div class="box"><h3>What it does</h3><ul>
+        <li>Runs the delivered main.py unchanged against a stand-in market fed with real history: candles, L1, OI, option chains, greeks</li>
+        <li>Shows orders on the chart, each with the sentence of the text that fired, and ASSUMED where an assumption decided</li>
+        <li>Trade list, P&amp;L after fees and slippage, drawdown; a results screen with Deploy on it</li>
+        <li>Read-only: no user key, no order to the exchange, isolated with time and memory limits</li></ul></div>
+      <div class="box"><h3>What exists</h3><p>A 7-trading-day replay on real PROD candles with a stand-in SDK, option replay with OI and greeks, and a marks file the chart reads. It is a lab tool with a paste-and-run page.</p></div>
+    </div>
+    <div class="col">
+      <div class="box"><h3>Phases</h3><ul>
+        <li><b>Phase 1 · we are here:</b> 7-trading-day replay, lab tool</li>
+        <li><b>Phase 2:</b> delivered with every strategy from the Coder; 'no orders' and 'not replayable' states; fixed window</li>
+        <li><b>Phase 3:</b> full history, user-chosen window, P&amp;L with fees and slippage, option strategies with greeks and OI, limits for partial-history cases</li>
+        <li><b>Phase 4:</b> results screen with Deploy; compare versions; the backtest replaces the 7-day chart</li></ul></div>
+      <div class="box"><h3>What it needs</h3><ul>
+        <li>History supply without user credentials (backend decides)</li>
+        <li>Time and memory limits for the isolated process</li>
+        <li>A fill model that states its limits: 1-minute candles, no order depth</li>
+        <li>A decision: ship the stand-in SDK or write a smaller replay-only market</li></ul></div>
+    </div>
+  </div>
+  <div class="foot"><span>Nubra AI Trading Programme</span><span class="n"></span></div>
+</section>
+
+<!-- 15 -->
+<section class="slide">
+  <div class="kicker">Roadmap</div>
+  <h2>Delivery roadmap by module, ordered by readiness</h2>
+  <svg viewBox="0 0 1140 440" width="1140" height="440" role="img" aria-label="Roadmap: five rows, one per module, phases left to right, with a marker on the current phase">
+    <defs><marker id="b" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#b45309"/></marker></defs>
+    <g font-size="13">
+      <rect x="760" y="6" width="16" height="14" fill="#d9ead3" stroke="#9fbf98"/><text x="782" y="18">done / exists</text>
+      <rect x="880" y="6" width="16" height="14" fill="#fff2cc" stroke="#d9c36b"/><text x="902" y="18">current phase</text>
+      <rect x="1010" y="6" width="16" height="14" fill="#fff" stroke="#9ca3af"/><text x="1032" y="18">planned</text>
+    </g>
+    <g font-size="14" font-weight="bold" fill="#1f2937">
+      <text x="0" y="68">Chart Analytics AI</text>
+      <text x="0" y="148">Strategy Coder</text>
+      <text x="0" y="228">One-click Deployment</text>
+      <text x="0" y="308">Strategy Recorder</text>
+      <text x="0" y="388">Backtest Engine</text>
+    </g>
+    <g font-size="12.5" fill="#1f2937">
+      <rect x="190" y="44" width="220" height="40" rx="5" fill="#fff2cc" stroke="#d9c36b"/><text x="300" y="62" text-anchor="middle">1 · Quick analysis, indicators</text><text x="300" y="77" text-anchor="middle" fill="#6b7280">in canary</text>
+      <rect x="420" y="44" width="220" height="40" rx="5" fill="#fff" stroke="#9ca3af"/><text x="530" y="62" text-anchor="middle">2 · S&amp;R, option chain, view,</text><text x="530" y="77" text-anchor="middle">multi-timeframe, divergence</text>
+      <rect x="650" y="44" width="220" height="40" rx="5" fill="#fff" stroke="#9ca3af"/><text x="760" y="62" text-anchor="middle">3 · Drawings, setup automation,</text><text x="760" y="77" text-anchor="middle">morning check</text>
+      <rect x="880" y="44" width="250" height="40" rx="5" fill="#fff" stroke="#9ca3af"/><text x="1005" y="62" text-anchor="middle">4 · Position alerts, nudges, bridge</text><text x="1005" y="77" text-anchor="middle">to AI mode, hand-off to the Coder</text>
+      <rect x="190" y="124" width="220" height="40" rx="5" fill="#d9ead3" stroke="#9fbf98"/><text x="300" y="142" text-anchor="middle">1 · Lab pipeline, 600-text suite,</text><text x="300" y="157" text-anchor="middle">PRD v0.3</text>
+      <rect x="420" y="124" width="220" height="40" rx="5" fill="#fff2cc" stroke="#d9c36b"/><text x="530" y="142" text-anchor="middle">2 · Product: three files, questions,</text><text x="530" y="157" text-anchor="middle">description, chart, handover</text>
+      <rect x="650" y="124" width="220" height="40" rx="5" fill="#fff" stroke="#9ca3af"/><text x="760" y="142" text-anchor="middle">3 · Entry points: recording,</text><text x="760" y="157" text-anchor="middle">Pine, Chart AI; feedback flow</text>
+      <rect x="880" y="124" width="250" height="40" rx="5" fill="#fff" stroke="#9ca3af"/><text x="1005" y="142" text-anchor="middle">4 · Learning loop in operation,</text><text x="1005" y="157" text-anchor="middle">cost cap, backtest replaces chart</text>
+      <rect x="190" y="204" width="220" height="40" rx="5" fill="#d9ead3" stroke="#9fbf98"/><text x="300" y="222" text-anchor="middle">1 · Cloud runs user code,</text><text x="300" y="237" text-anchor="middle">.env installed, SDK 0.5.4</text>
+      <rect x="420" y="204" width="220" height="40" rx="5" fill="#fff2cc" stroke="#d9c36b"/><text x="530" y="222" text-anchor="middle">2 · Deploy and Edit buttons,</text><text x="530" y="237" text-anchor="middle">auto-save, .env form</text>
+      <rect x="650" y="204" width="220" height="40" rx="5" fill="#fff" stroke="#9ca3af"/><text x="760" y="222" text-anchor="middle">3 · Feedback overwrite with</text><text x="760" y="237" text-anchor="middle">confirmation, versions</text>
+      <rect x="880" y="204" width="250" height="40" rx="5" fill="#fff" stroke="#9ca3af"/><text x="1005" y="222" text-anchor="middle">4 · Deploy from backtest results,</text><text x="1005" y="237" text-anchor="middle">compare versions</text>
+      <rect x="190" y="284" width="220" height="40" rx="5" fill="#fff2cc" stroke="#d9c36b"/><text x="300" y="302" text-anchor="middle">0 · Idea; entry point defined</text><text x="300" y="317" text-anchor="middle" fill="#6b7280">in the Coder's PRD</text>
+      <rect x="420" y="284" width="220" height="40" rx="5" fill="#fff" stroke="#9ca3af"/><text x="530" y="302" text-anchor="middle">1 · Event schema, consent,</text><text x="530" y="317" text-anchor="middle">capture, 10 sessions</text>
+      <rect x="650" y="284" width="220" height="40" rx="5" fill="#fff" stroke="#9ca3af"/><text x="760" y="302" text-anchor="middle">2 · Events to text, tested</text><text x="760" y="317" text-anchor="middle">through the Coder (T-REC30)</text>
+      <rect x="880" y="284" width="250" height="40" rx="5" fill="#fff" stroke="#9ca3af"/><text x="1005" y="302" text-anchor="middle">3 · Live entry point with</text><text x="1005" y="317" text-anchor="middle">text review</text>
+      <rect x="190" y="364" width="220" height="40" rx="5" fill="#fff2cc" stroke="#d9c36b"/><text x="300" y="382" text-anchor="middle">1 · 7-trading-day replay,</text><text x="300" y="397" text-anchor="middle">lab tool</text>
+      <rect x="420" y="364" width="220" height="40" rx="5" fill="#fff" stroke="#9ca3af"/><text x="530" y="382" text-anchor="middle">2 · Delivered with every</text><text x="530" y="397" text-anchor="middle">strategy</text>
+      <rect x="650" y="364" width="220" height="40" rx="5" fill="#fff" stroke="#9ca3af"/><text x="760" y="382" text-anchor="middle">3 · Full history, P&amp;L with fees,</text><text x="760" y="397" text-anchor="middle">options with greeks and OI</text>
+      <rect x="880" y="364" width="250" height="40" rx="5" fill="#fff" stroke="#9ca3af"/><text x="1005" y="382" text-anchor="middle">4 · Results screen with Deploy,</text><text x="1005" y="397" text-anchor="middle">compare versions</text>
+    </g>
+    <g stroke="#b45309" stroke-width="2" fill="none" marker-end="url(#b)">
+      <path d="M300,104 L300,90"/><path d="M530,184 L530,170"/><path d="M530,264 L530,250"/><path d="M300,344 L300,330"/><path d="M300,424 L300,410"/>
+    </g>
+    <g font-size="11" fill="#b45309" font-weight="bold">
+      <text x="300" y="116" text-anchor="middle">we are here</text><text x="530" y="196" text-anchor="middle">we are here</text><text x="530" y="276" text-anchor="middle">we are here</text><text x="300" y="356" text-anchor="middle">we are here</text><text x="300" y="436" text-anchor="middle">we are here</text>
+    </g>
+  </svg>
+  <p class="note">No dates are set. Each phase lists what it needs to start; a phase starts when its needs are met and the previous one is shipped.</p>
+  <div class="foot"><span>Nubra AI Trading Programme</span><span class="n"></span></div>
+</section>
+
+<!-- 16 -->
+<section class="slide">
+  <div class="kicker">Dependencies</div>
+  <h2>Dependencies between phases and on other teams</h2>
+  <div class="cols">
+    <div class="col">
+      <div class="box"><h3>Between modules</h3><ul>
+        <li>Deployment phase 2 needs the Coder's three-file delivery (Coder phase 2)</li>
+        <li>Recorder phase 2 needs the Coder in production (Coder phase 2)</li>
+        <li>Coder phase 3 needs Recorder phase 2 and Chart AI phase 4 for its new entry points</li>
+        <li>Deployment phase 4 and Coder phase 4 need Backtest phase 3</li>
+        <li>Recorder phase 3 needs Chart AI phase 3 drawing data</li>
+        <li>Chart AI phase 3 and Coder phase 3 share one Pine generator</li></ul></div>
+      <div class="box"><h3>Shared foundations to build once</h3><ul>
+        <li>History supply (candles, L1, OI, option chain, greeks) without user credentials</li>
+        <li>Instrument service (names, expiries, BSE, MCX)</li>
+        <li>Request and session storage with deletion</li>
+        <li>Review queue: a stronger model reviews every delivery; a person approves fixes</li></ul></div>
+    </div>
+    <div class="col">
+      <div class="box"><h3>From the Cloud team</h3><ul>
+        <li>Auto-save and start APIs for created strategies</li>
+        <li>Behaviour when a running strategy is overwritten</li></ul></div>
+      <div class="box"><h3>From backend</h3><ul>
+        <li>The service interface and orchestration of the model steps</li>
+        <li>Retries and alerts for model-call faults</li>
+        <li>Isolation, time and memory limits for the backtest process</li></ul></div>
+      <div class="box"><h3>From frontend</h3><ul>
+        <li>Text input, question rounds, .env form, description with highlights, stacked charts, Deploy and Edit buttons, change summary</li>
+        <li>Event capture for the Recorder; nudges for Chart AI; the bridge that shows AI mode's answers inside the chart</li></ul></div>
+      <div class="box"><h3>From data</h3><ul>
+        <li>Drawing data (Metabase) for Chart AI phase 3</li>
+        <li>OI and option-chain feed to the Chart AI model</li></ul></div>
+    </div>
+  </div>
+  <div class="foot"><span>Nubra AI Trading Programme</span><span class="n"></span></div>
+</section>
+
+<!-- 17 -->
+<section class="slide">
+  <div class="kicker">Measures</div>
+  <h2>Success measures per module</h2>
+  <table>
+    <tr><th style="width:190px">Module</th><th>Leading measure (per release)</th><th>Lagging measure (after a month of use)</th></tr>
+    <tr><td>Chart Analytics AI</td><td>Agreement of AI levels and views with a reviewed set of charts; nudge acceptance rate</td><td>Share of chart sessions that use the AI; setups handed to the Coder</td></tr>
+    <tr><td>Strategy Coder</td><td>Pass rate on the 600-text suite judged by a stronger-model review, target 95% or more; 10 minutes or less to delivery; 2% or fewer not built</td><td>Share of ASSUMED values users change; share of requests needing questions; feedback requests per strategy</td></tr>
+    <tr><td>One-click Deployment</td><td>Deploy click to started strategy on the Cloud succeeds; .env edits apply without a rebuild</td><td>Share of delivered strategies that are deployed; strategies still running after a week</td></tr>
+    <tr><td>Strategy Recorder</td><td>Pass rate on T-REC30, reported separately from typed text</td><td>Share of recorded sessions that become a deployed strategy</td></tr>
+    <tr><td>Backtest Engine</td><td>Every delivery gets a chart or a stated reason; 0 orders reach the exchange; runs within its time limit</td><td>Share of users who change .env after seeing the chart; share who deploy from the results screen</td></tr>
+  </table>
+  <p class="note">Programme-level measure: elapsed time from a trader's idea to a strategy running on Nubra Cloud, measured end to end. Target: minutes, not weeks.</p>
+  <div class="foot"><span>Nubra AI Trading Programme</span><span class="n"></span></div>
+</section>
+
+<!-- testing -->
+<section class="slide">
+  <div class="kicker">Testing and accuracy</div>
+  <h2>Chart Analytics AI: what it must be able to do before go-live</h2>
+  <p class="lead" style="font-size:16px;margin-bottom:8px">Each feature from the requirement notes gets a test on a reviewed set of charts, positions and option chains with known answers. Targets are proposed; they are set before the test set is built, not after.</p>
+  <table class="tight" style="font-size:12.5px">
+    <tr><th style="width:230px">Feature (requirement note)</th><th>Test</th><th style="width:250px">Target before go-live (proposed)</th></tr>
+    <tr><td>Quick analysis, S&amp;R by AI (4)</td><td>100 reviewed charts with reviewer-drawn levels. AI levels compared for distance to the reviewer's.</td><td>85% of AI levels within the reviewer's tolerance; no level invented outside the data.</td></tr>
+    <tr><td>AI view of the market (5)</td><td>100 reviewed charts labelled bullish, bearish or neutral by two reviewers.</td><td>80% agreement with the reviewers where the reviewers agree.</td></tr>
+    <tr><td>Option-chain analysis (6)</td><td>50 reviewed option chains with the reviewer's momentum reading.</td><td>85% agreement; every number quoted exists in the chain.</td></tr>
+    <tr><td>Setups across time frames; indicators and divergence (8, 9)</td><td>Signals computed in code from the same indicators; AI output compared.</td><td>100% of listed signals present in the computed set; 95% of divergences found.</td></tr>
+    <tr><td>Drawings with trader skill (1)</td><td>50 charts; reviewer accepts or rejects each Fibonacci and trend line.</td><td>90% accepted.</td></tr>
+    <tr><td>Setup automation through Pine (2)</td><td>20 described setups; generated Pine compiled and compared with the manual drawing.</td><td>95% compile; 90% reproduce the drawing.</td></tr>
+    <tr><td>Morning check (3)</td><td>30 stored setups with seeded deviations and 30 correct ones.</td><td>95% of deviations found with entry and exit; 5% or fewer false alarms.</td></tr>
+    <tr><td>Positions-based view and alerts (7)</td><td>50 positions with seeded flaws and 50 sound ones.</td><td>95% of flaws alerted; 10% or fewer false alerts.</td></tr>
+    <tr><td>Nudges (10); bridge to AI mode (11, 13)</td><td>Every ability reachable from a nudge; 50 non-chart prompts.</td><td>100% of non-chart prompts routed and answered; 0 refusals.</td></tr>
+    <tr><td>All features</td><td>Response time; data safety; order safety.</td><td>Answer within 15 seconds; every quoted value exists in the data; 0 orders placed by Chart AI.</td></tr>
+  </table>
+  <div class="foot"><span>Nubra AI Trading Programme</span><span class="n"></span></div>
+</section>
+
+<!-- golive -->
+<section class="slide">
+  <div class="kicker">Testing and accuracy</div>
+  <h2>Go-live gates for every module</h2>
+  <p class="lead" style="font-size:16px;margin-bottom:8px">A module goes live only when its gates are met on a fixed test set, reviewed by a person, and a canary cohort has used it. The claim behind every gate: the module fulfils the user requirements it was built for.</p>
+  <table style="font-size:13.5px">
+    <tr><th style="width:190px">Module</th><th>Accuracy gate</th><th>Safety gate</th><th style="width:250px">Canary and sign-off</th></tr>
+    <tr><td>Chart Analytics AI</td><td>The targets on the previous slide, on the reviewed test set.</td><td>No invented values; no orders; non-chart prompts bridged, never refused.</td><td>2 weeks with the current canary cohort; nudge acceptance measured; product owner signs off per phase.</td></tr>
+    <tr><td>Strategy Coder</td><td>95% pass on the 600-text suite (stronger-model review); 10 minutes or less to delivery; 2% or fewer not built; 20 of 20 gaps handled as the assumption rules say; 10 of 10 contradictions asked, not built.</td><td>0 secrets or UAT branches in 600 delivered files; every ASSUMED value editable in .env without a rebuild.</td><td>Webinar cohort builds 20 strategies; every delivery reviewed; backend owner approves fixes.</td></tr>
+    <tr><td>One-click Deployment</td><td>20 of 20 strategies saved and started on the Cloud from the button; .env edits applied without a rebuild.</td><td>No deploy without the three files; overwrite only after confirmation; rollback to the previous version works.</td><td>10 canary users deploy; Cloud team confirms behaviour for a running strategy.</td></tr>
+    <tr><td>Strategy Recorder</td><td>T-REC30: pass rate on 30 recorded sessions, reported separately from typed text, meets the Coder's bar.</td><td>Recording only with consent; events, not pixels; the user reviews the text before any build.</td><td>10 traders record real sessions; each confirms the text matches their strategy.</td></tr>
+    <tr><td>Backtest Engine</td><td>20 of 20 deliveries produce a chart or a stated reason; every marker carries the sentence that fired; results match the live template's behaviour on the same data.</td><td>0 orders reach the exchange; no user key used; runs within the time and memory limits.</td><td>Reviewed by the backend owner before it replaces the 7-day chart.</td></tr>
+  </table>
+  <div class="foot"><span>Nubra AI Trading Programme</span><span class="n"></span></div>
+</section>
+
+<!-- 18 -->
+<section class="slide">
+  <div class="kicker">Decisions and next steps</div>
+  <h2>Decisions required and next steps</h2>
+  <div class="cols">
+    <div class="col">
+      <div class="box"><h3>Decisions</h3><ul>
+        <li>Owners: backend, frontend and Cloud for the Coder and Deployment work</li>
+        <li>History supply for the backtest and Chart AI: which service, which credentials</li>
+        <li>Pine Script workflow: what the user pastes and how it becomes a plan; shared with Chart AI's setup automation</li>
+        <li>Overwrite behaviour for a running strategy on the Cloud</li>
+        <li>Whether the Recorder starts now (schema and capture) or after the Coder ships</li></ul></div>
+      <div class="box"><h3>Already decided</h3><ul>
+        <li>Nubra Python Cloud SDK is the only target; three files; PROD only</li>
+        <li>Questions only for gaps that cannot be assumed; at most three rounds</li>
+        <li>No dates; one handover when the product work is complete</li>
+        <li>Every delivery is reviewed after the fact; fixes solve a class of error</li></ul></div>
+    </div>
+    <div class="col">
+      <div class="box"><h3>Next steps, in order</h3><ul>
+        <li>Chart AI: ship phase 1 out of canary; define the evaluation set for phase 2</li>
+        <li>Coder: finish the PRD review; hand over PRD, Handover and Current Status; start phase 2 with the named owners</li>
+        <li>Deployment: agree the save and start APIs with the Cloud team</li>
+        <li>Backtest: decide the history supply and the isolation limits; move the replay from lab tool to delivery</li>
+        <li>Recorder: write the event schema; find 10 traders willing to record</li></ul></div>
+      <div class="box"><h3>Documents behind this deck</h3><ul>
+        <li>PRD_Strategy_Recorder: the Coder's requirements and acceptance tests</li>
+        <li>Handover_Strategy_Recorder: how to build and run the Coder</li>
+        <li>Current_Status_Strategy_Recorder: results, current values, remaining work</li>
+        <li>User Requirement Gathering 1 to 4; Nubra Charts AI and Nubra Charts feature notes (presentation/interviews/)</li></ul></div>
+    </div>
+  </div>
+  <div class="foot"><span>Nubra AI Trading Programme</span><span class="n"></span></div>
+</section>
+
+</div>
+<div id="help">← → or space to move · F for fullscreen · P to print all slides</div>
+<script>
+(function(){
+  var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+  var i = Math.max(0, Math.min(slides.length-1, (parseInt(location.hash.slice(1),10)||1)-1));
+  function show(n){ i=Math.max(0, Math.min(slides.length-1, n)); slides.forEach(function(s,k){s.classList.toggle('active',k===i);}); location.hash='#'+(i+1); }
+  function fit(){ var sc=Math.min(window.innerWidth/1280, window.innerHeight/720)*0.97; slides.forEach(function(s){s.style.transform='scale('+sc+')';}); }
+  document.addEventListener('keydown', function(e){
+    if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown'){show(i+1);e.preventDefault();}
+    else if(e.key==='ArrowLeft'||e.key==='PageUp'){show(i-1);e.preventDefault();}
+    else if(e.key==='Home'){show(0);} else if(e.key==='End'){show(slides.length-1);}
+    else if(e.key==='f'||e.key==='F'){ if(document.fullscreenElement){document.exitFullscreen();} else {document.documentElement.requestFullscreen();} }
+    else if(e.key==='p'||e.key==='P'){ window.print(); }
+  });
+  document.getElementById('stage').addEventListener('click', function(e){ if(e.clientX > window.innerWidth/2) show(i+1); else show(i-1); });
+  window.addEventListener('resize', fit); window.addEventListener('hashchange', function(){ var n=parseInt(location.hash.slice(1),10); if(n&&n-1!==i) show(n-1); });
+  slides.forEach(function(s,k){var n=s.querySelector('.foot .n'); if(n) n.textContent=k+1;}); fit(); show(i);
+})();
+</script>
+</body>
+</html>
